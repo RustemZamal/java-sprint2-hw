@@ -1,15 +1,14 @@
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
+
 import java.util.HashMap;
 
 
 public class YearlyReport {
     static MonthName mName = new MonthName();
     public HashMap<Integer, YearlyReportData> data = new HashMap<>();
+    FileReader fileReader = new FileReader();
 
     public YearlyReport(String path) {
-        String text = readFileContentsOrNull(path);
+        String text = fileReader.readFileContentsOrNull(path);
         String[] lines = text.split("\r?\n");
         // считаваю с 1 так как в начале файлов заголовки
         for (int i = 1; i < lines.length; i++) {
@@ -46,16 +45,4 @@ public class YearlyReport {
         System.out.println("Средний расход за все месяцы в году: " + avarageExpense/ yearsReport.data.size());
         System.out.println("Ссредний доход за все мяцы в году: " + avarageIncome/ yearsReport.data.size());
     }
-
-
-    private String readFileContentsOrNull(String path)
-    {
-        try {
-            return Files.readString(Path.of(path));
-        } catch (IOException e) {
-            System.out.println("Невозможно прочитать файл с годовым отчётом. Возможно, файл не находится в нужной директории.");
-            return null;
-        }
-    }
-
 }
